@@ -1,0 +1,49 @@
+
+/* plugin.custom.css */
+@tailwind components; /* Menggunakan komponen Tailwind */   
+
+@layer components {
+    
+    /* Toastr */
+    .toast.toast-success {  
+        background-color: linear-gradient(45deg, #00b09b, #96c93d);
+    }
+
+    /* Selectize */ 
+    .selectize-dropdown [data-selectable] .highlight {
+        @apply bg-blue-200;
+    }
+    .selectize-control {  
+        @apply py-2 px-3;
+    }  
+
+    .selectize-control.selectize-input.items {  
+        @apply relative w-full rounded-md bg-white py-2 pl-3 pr-2 text-left text-gray-900 transition-all duration-200;
+    }  
+    .selectize-input.focus {  
+        @apply px-4 ring-2 ring-primary border-primary shadow-none;
+    }  
+
+    .selectize-dropdown {  
+        @apply bg-white shadow-lg;  
+    }
+
+    .selectize-dropdown.selected {
+        @apply bg-primary;
+    }
+
+
+    /* Flatpickr */
+    .flatpickr-current-month.flatpickr-monthDropdown-months {
+        @apply mt-2 z-50 w-20 max-h-72 p-1 space-y-0.5 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900 dark:border-neutral-700;
+    }
+
+    .flatpickr-day.today {
+        @apply border border-primary hover:bg-primary focus:bg-primary hover:text-white;
+    }
+
+    .flatpickr-day.selected {
+        @apply transition-all duration-200 bg-gray-900 text-white border border-gray-900 hover:bg-primary hover:border-primary;
+    }
+
+}
