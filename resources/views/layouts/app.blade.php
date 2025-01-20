@@ -32,6 +32,10 @@
         
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/css/plugin-custom.css', 'resources/js/app.js'])
+
+        
+        <script src="https://unpkg.com/popper.js@1"></script>
+        <script src="https://unpkg.com/tippy.js@5/dist/tippy-bundle.iife.js"></script>
         
     </head>
     <body class="font-sans antialiased">
@@ -64,11 +68,40 @@
         @stack('modals')
         
         @livewireScripts
+        <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">-->
+        <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
+        <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+
+        <!--<link-->
+        <!--  rel="stylesheet"-->
+        <!--  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"-->
+        <!--  integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="-->
+        <!--  crossorigin="anonymous"-->
+        <!--  referrerpolicy="no-referrer"-->
+        <!--/>-->
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+          integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer"
+        ></script>
+          
+        
         <script>
+            flatpickr.localize(flatpickr.l10ns.id); // Mengatur lokalitas flatpickr ke Bahasa Indonesia  
+            
+            const { DateTime, Settings } = luxon;  
+            Settings.defaultLocale = 'id-ID';  // Mengatur lokalitas luxon ke Bahasa Indonesia
+        
             // Fungsi untuk menginisialisasi Selectize dengan parameter  
             function initializeSelectize(selectId, selectOptions, ajaxUrl) {  
                 // Inisialisasi Selectize  
-                const selectize = window.jquery(selectId).selectize({  
+                const selectize = $(selectId).selectize({  
                     valueField: selectOptions.valueField,  
                     labelField: selectOptions.labelField,  
                     searchField: selectOptions.searchField,  
