@@ -98,13 +98,8 @@
           integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
-        ></script>
-        @yield('chart-scripts')  
-
-
-        @if (!empty($__env->yieldContent('datatable-script')))  
-            @yield('datatable-script')  
-        @endif  
+        ></script>  
+        @stack('scripts')  
         
         <script>
             flatpickr.localize(flatpickr.l10ns.id); // Mengatur lokalitas flatpickr ke Bahasa Indonesia  

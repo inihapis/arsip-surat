@@ -309,7 +309,7 @@
     </div>
 
     
-
+    @push('scripts')
     <script>
     
     function closeModal(modalId) {
@@ -675,5 +675,5 @@
         
     });
     </script>
-    
+    @endpush
 </div>

@@ -254,7 +254,7 @@
     </div>
 
     
-    @section('datatable-script')
+    @push('scripts')
     <script>
         
     function closeModal(modalId) {
@@ -487,5 +487,5 @@
     
     
     </script>
-    @endsection
+    @endpush
 </div>
