@@ -11,6 +11,9 @@ export default {
         './resources/views/**/*.blade.php',
         '/node_modules/preline/dist/*.js'
     ],
+    safelist: [  
+         // Tambahkan kelas yang ingin Anda jaga  
+    ],  
 
     theme: {
         extend: {

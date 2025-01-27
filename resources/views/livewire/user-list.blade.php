@@ -141,7 +141,7 @@
                                 <th class="p-4 text-center w-1/12">
                                     No
                                 </th>
-                                <th class="p-4 cursor-pointer w-1/6">
+                                <th class="p-4 cursor-pointer w-3/12">
                                     Nama
                                 </th>
                                 <th class="p-4 cursor-pointer w-auto">
@@ -160,7 +160,7 @@
 
 
                 <!-- Modal untuk Add/Edit -->
-                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -178,6 +178,43 @@
                                 <label for="input-email" class="block text-sm font-bold text-gray-700">Email</label>
                                 <x-input id="input-email" class="block mt-1 w-full" type="text" placeholder="Email" required />
                             </div>
+                            <div class="mb-4">
+                                <span for="input-role" class="block text-sm font-bold text-gray-700">Role</span>
+                                <ul class="flex flex-col sm:flex-row mt-1 w-full sm:mt-0">
+                                    <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
+                                        <div class="relative flex items-start w-full">
+                                        <div class="flex items-center h-5">
+                                            <input id="hs-horizontal-list-group-item-radio-1" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50" checked="">
+                                        </div>
+                                        <label for="hs-horizontal-list-group-item-radio-1" class="ms-3 block w-full text-sm text-gray-600">
+                                            Chris Lynch
+                                        </label>
+                                        </div>
+                                    </li>
+
+                                    <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
+                                        <div class="relative flex items-start w-full">
+                                        <div class="flex items-center h-5">
+                                            <input id="hs-horizontal-list-group-item-radio-2" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50">
+                                        </div>
+                                        <label for="hs-horizontal-list-group-item-radio-2" class="ms-3 block w-full text-sm text-gray-600">
+                                            Maria Guan
+                                        </label>
+                                        </div>
+                                    </li>
+
+                                    <li class="inline-flex items-center gap-x-2.5 py-3 px-4 text-sm font-medium bg-white border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg sm:-ms-px sm:mt-0 sm:first:rounded-se-none sm:first:rounded-es-lg sm:last:rounded-es-none sm:last:rounded-se-lg">
+                                        <div class="relative flex items-start w-full">
+                                        <div class="flex items-center h-5">
+                                            <input id="hs-horizontal-list-group-item-radio-3" name="hs-horizontal-list-group-item-radio" type="radio" class="border-gray-200 rounded-full disabled:opacity-50">
+                                        </div>
+                                        <label for="hs-horizontal-list-group-item-radio-3" class="ms-3 block w-full text-sm text-gray-600">
+                                            Bob Arum
+                                        </label>
+                                        </div>
+                                    </li>
+                                    </ul>
+                            </div>
                         </div>
                         <!-- Modal Footer -->
                         <div class="p-4 border-t-2 flex justify-end">
@@ -190,7 +227,7 @@
 
 
                 <!-- Modal untuk Konfirmasi Delete -->
-                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -212,15 +249,6 @@
                         
         </div>
     </div>
-
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
-    
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="{{ asset('css/dataTables.tailwindcss.js') }}"></script>
-
     
     <script>
         
@@ -260,7 +288,7 @@
         $('#category-name-input').val(''); // Kosongkan nama
         $('#category-letter-code-input').val(''); // Kosongkan alamat
         $('#modal-submit').show();
-        $('.modal-submit').text('Tambah User');
+        $('#modal-submit').text('Tambah User');
         $('#modal').removeClass('hidden'); // Tampilkan modal
         
     }
@@ -360,12 +388,23 @@
                 infoEmpty: "Tidak ada data yang tersedia",
                 zeroRecords: "Tidak ada data yang ditemukan"
             },
-            // Inisialisasi Tippy.js setelah DataTable selesai menggambar
-            initComplete: function(settings, json) {
-                initializeTooltips(); // Panggil fungsi untuk menginisialisasi tooltip
-            },
-            drawCallback: function(settings) {
-                initializeTooltips(); // Inisialisasi tooltip setiap kali tabel digambar ulang
+            initComplete: function(settings, json) {  
+                // Inisialisasi tooltip setelah DataTable selesai menggambar  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
+            },  
+            drawCallback: function(settings) {  
+                // Inisialisasi tooltip setiap kali tabel digambar ulang  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
             }
             
          
@@ -381,7 +420,8 @@
 
         
         // Handle form submit for edit and create
-        $('#modal-form').on('submit', function(e) {
+        $(document).off('submit', '#modal-form'); // Unbind previous event    
+        $(document).on('submit', '#modal-form', function(e) {
             e.preventDefault(); // Mencegah form dari submit default
             const id = $('#category-id-input').val(); // Ambil ID dari input
             const name = $('#category-name-input').val(); // Ambil nama dari input

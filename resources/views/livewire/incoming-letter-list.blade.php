@@ -162,7 +162,7 @@
                 </div>
                 
                 <!-- Modal untuk View -->
-                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
+                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden  items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/2">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -213,7 +213,7 @@
                 </div>
 
                 <!-- Modal untuk Add/Edit -->
-                <div id="modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
+                <div id="modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden  items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/2">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -224,7 +224,6 @@
                         <form id="modal-form" class="grid grid-cols-2 gap-4" enctype="multipart/form-data">
                             @csrf  
                             <input type="hidden" id="input-id">
-                            <!-- <input type="hidden" name="file" id="input-file-name"> Hidden input untuk nama file -->  
                             <div class="mb-4">
                                 <label for="input-letter-number" class="block text-sm font-bold text-gray-700">Nomor Surat</label>
                                 <x-input id="input-letter-number" name="letter_number" class="block mt-1 w-full" type="text" placeholder="Nomor Surat" required />
@@ -281,7 +280,7 @@
 
 
                 <!-- Modal untuk Konfirmasi Delete -->
-                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50  items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -293,7 +292,7 @@
                         </div>
                         <!-- Modal Footer -->
                         <div class="p-4 border-t-2  flex justify-end">
-                            <x-secondary-button class="mr-2" onclick="closeDeleteModal()">Batal</x-secondary-button>
+                            <x-secondary-button class="mr-2" onclick="closeModal('delete-modal')">Batal</x-secondary-button>
                             <x-danger-button id="confirm-delete">Hapus</x-danger-button>
                         </div>  
                     </div>
@@ -304,40 +303,13 @@
         </div>
     </div>
 
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
-    
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
-        type="text/css"
-    />
-
-    
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script> -->
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="{{ asset('css/dataTables.tailwindcss.js') }}"></script>
-
 
     <script>
     
     function closeModal(modalId) {
-        document.getElementById(modalId).classList.add('hidden');
-        // Reset form if the modalId is 'modal'
-        if (modalId === 'modal') {
-            document.getElementById('modal-form').reset();
-        }
+        document.getElementById(modalId).classList.replace('flex', 'hidden'); //ganti flex dengan hidden 
     }
-
-    
-    function closeDeleteModal() {
-        document.getElementById('delete-modal').classList.add('hidden');
-    }
-
-    
+   
     function viewSuratMasuk(id) {
         // Ambil data dari server
         $.ajax({
@@ -356,7 +328,9 @@
                 $('#description').text(data.description);
                 $('#document-show').attr('href', data.file_route);
                 $('.modal-title').text('Detail Surat Masuk');
-                $('#view-modal').removeClass('hidden');
+                
+                const viewModal = document.getElementById('view-modal');  
+                viewModal.classList.replace('hidden', 'flex');  
             }
         });
     }
@@ -367,9 +341,6 @@
             url: `/incoming-letter/edit/${id}`,  
             method: 'GET',  
             success: function(data) {  
-                // Reset Dropzone  
-                // var myDropzone = Dropzone.forElement("#myDropzone");  
-                // myDropzone.removeAllFiles(true); // Menghapus semua file dari Dropzone  
     
                 // Set nilai Selectize  
                 var selectizeInstitution = $('#select-institution')[0].selectize;    
@@ -411,8 +382,11 @@
                 
                 // Tampilkan modal  
                 $('#modal-submit').show();  
-                $('#modal-submit').text('Simpan');  
-                $('#modal').removeClass('hidden');  
+                $('#modal-submit').text('Simpan');
+            
+                const editModal = document.getElementById('modal');  
+                editModal.classList.replace('hidden', 'flex');    
+            
             },  
             error: function(xhr) {  
                 toastr.error('Terjadi kesalahan saat mengambil data: ' + xhr.responseJSON.message, 'Gagal');  
@@ -428,10 +402,6 @@
     
         var selectizeCategory = $('#select-category')[0].selectize;    
         selectizeCategory.setValue('');   
-    
-        // Hapus semua file dari Dropzone  
-        // var myDropzone = Dropzone.forElement("#myDropzone");  
-        // myDropzone.removeAllFiles(true); // Menghapus semua file dari Dropzone  
     
         // Hancurkan instance Flatpickr yang ada jika ada  
         if (typeof flatpickrInstances !== 'undefined' && flatpickrInstances['#input-letter-date']) {    
@@ -450,21 +420,24 @@
         // Reset form  
         document.getElementById('modal-form').reset();
         $('#input-id').val(''); 
-        $('#input-file-name').val(''); 
-        $('#input-file').val(''); 
-  
-    
+        
         // Ubah judul modal dan tampilkan  
         $('.modal-title').text('Tambah Surat Masuk');   
         $('#modal-submit').show();  
-        $('#modal-submit').text('Tambah Surat Masuk');  
-        $('#modal').removeClass('hidden'); // Tampilkan modal  
+        $('#modal-submit').text('Tambah Surat Masuk');
+
+        const addModal = document.getElementById('modal');  
+        addModal.classList.replace('hidden', 'flex');  
     }  
 
 
     // Konfirmasi delete
     function confirmDeleteSuratMasuk(id) {
-        $('#delete-modal').removeClass('hidden');
+        $('.modal-title').text('Konfirmasi Hapus');
+
+        const deleteModal = document.getElementById('delete-modal');  
+        deleteModal.classList.replace('hidden', 'flex');
+
         $('#confirm-delete').off('click').on('click', function() {
             $.ajax({
                 url: `/incoming-letter/delete/${id}`,
@@ -473,7 +446,7 @@
                     _token: '{{ csrf_token() }}' // Token CSRF untuk keamanan  
                 }, 
                 success: function() {
-                    $('#delete-modal').addClass('hidden');
+                    deleteModal.classList.replace('flex', 'hidden'); 
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     toastr.success('Data berhasil dihapus.','Berhasil'); // Tampilkan pesan sukses
                 },
@@ -483,7 +456,6 @@
             });
         });
     }
-      
     
     $(document).ready(function() {
         // Set CSRF token for AJAX requests
@@ -526,8 +498,8 @@
             "{{ route('api.institution') }}" // URL AJAX    
         );
 
-     
-
+        console.log('data',$('#dataTable').length); // Harus mengembalikan 1 jika elemen ada  
+  
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -567,14 +539,14 @@
                 },   
                 { data: null, render: function(data, type, row) {
                     return '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Lihat Data" onclick="viewSuratMasuk(' + row.id + ')">' +
-                   '<i class="ti ti-eye"></i>' +
-                   '</button>' +
-                   '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Ubah Data"" onclick="editSuratMasuk(' + row.id + ')">' +
-                   '<i class="ti ti-edit"></i>' +
-                   '</button>' +
-                   '<button type="submit" class="btn-icon-actionDelete tippy-button" data-tippy-content="Hapus Data" onclick="confirmDeleteSuratMasuk(' + row.id + ')">' +
-                   '<i class="ti ti-trash"></i>' +
-                   '</button>';
+                '<i class="ti ti-eye"></i>' +
+                '</button>' +
+                '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Ubah Data"" onclick="editSuratMasuk(' + row.id + ')">' +
+                '<i class="ti ti-edit"></i>' +
+                '</button>' +
+                '<button type="submit" class="btn-icon-actionDelete tippy-button" data-tippy-content="Hapus Data" onclick="confirmDeleteSuratMasuk(' + row.id + ')">' +
+                '<i class="ti ti-trash"></i>' +
+                '</button>';
                 } }
             
             ],
@@ -611,17 +583,27 @@
                 infoEmpty: "Tidak ada data yang tersedia",
                 zeroRecords: "Tidak ada data yang ditemukan"
             },
-            // Inisialisasi Tippy.js setelah DataTable selesai menggambar
-            initComplete: function(settings, json) {
-                initializeTooltips(); // Panggil fungsi untuk menginisialisasi tooltip
-            },
-            drawCallback: function(settings) {
-                initializeTooltips(); // Inisialisasi tooltip setiap kali tabel digambar ulang
+            initComplete: function(settings, json) {  
+                // Inisialisasi tooltip setelah DataTable selesai menggambar  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
+            },  
+            drawCallback: function(settings) {  
+                // Inisialisasi tooltip setiap kali tabel digambar ulang  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
             }
             
-         
-        });
         
+        });  
 
         // Menghubungkan input pencarian kustom dengan DataTables
         $('#search-input').on('keyup', function() {
@@ -630,10 +612,18 @@
             
         });
 
-    
-        $('#modal-form').on('submit', function(e) {    
+        console.log('data',$('#dataTable').length); // Harus mengembalikan 1 jika elemen ada  
+        console.log('modal',$('#modal-form').length); // Harus mengembalikan 1 jika elemen ada  
+        
+        // Handle form submit for edit and create
+        $(document).off('submit', '#modal-form'); // Unbind previous event    
+        $(document).on('submit', '#modal-form', function(e) {
+            console.log("Submit event triggered"); // Tambahkan log ini  
+
             e.preventDefault(); // Mencegah form dari submit default    
-            const id = $('#input-id').val();  
+            const id = $('#input-id').val(); 
+            console.log($('#modal-form').length); // Harus mengembalikan 1 jika elemen ada  
+
                 
             // Ambil data dari form    
             var formData = new FormData(this); // Mengambil semua data dari form  
@@ -665,7 +655,9 @@
                 contentType: false,    
                 success: function(response) {    
                     console.log("Respons dari server:", response);    
-                    $('#modal').addClass('hidden');    
+                    const modal = document.getElementById('modal');  
+                    modal.classList.replace('flex', 'hidden'); 
+
                     $('#dataTable').DataTable().ajax.reload();    
                     const title = 'Berhasil';    
                     toastr.success(id ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.', title);    
@@ -676,8 +668,6 @@
                 }    
             });    
         });  
-    
-        
         
     });
     </script>

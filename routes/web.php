@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Institution\InstitutionIndex;
 use App\Livewire\InstitutionList;
 use App\Livewire\CategoryList;
 use App\Livewire\UserList;

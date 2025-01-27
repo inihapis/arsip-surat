@@ -125,7 +125,7 @@
                             </div>
                             </div>
                             <!-- Tombol Tambah -->
-                            <x-button onclick="addKategori()"><i class="ti ti-circle-plus"></i>Tambah Kategori</x-button>
+                            <x-button onclick="addInstitusi()"><i class="ti ti-circle-plus"></i>Tambah Instansi</x-button>
                         </div>
                     </div>
                 </div>
@@ -157,8 +157,8 @@
                 </div>
                 
                 <!-- Modal untuk View -->
-                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
-                    <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/2">
+                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden items-center justify-center">
+                    <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-5/12">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
                             <h2 class="modal-title text-2xl font-extrabold"></h2>
@@ -167,20 +167,20 @@
                         <div class="p-6 space-y-6">
                             <div class="grid grid-rows-2 p-3 items-center text-center rounded-md bg-primary/10 hover:bg-blue-100 transition-colors duration-200">
                                 <span class="block text-lg text-primary">Nama Instansi</span>
-                                <span id="institution-name" class="block text-lg font-extrabold text-primary"></span>
+                                <span id="name" class="block text-lg font-extrabold text-primary"></span>
                             </div>
                             <div class="grid grid-cols-2 gap-y-8 gap-x-4">
                                 <div>
                                     <span class="block text-lg font-extrabold text-gray-700">Phone</span>
-                                    <span id="institution-phone" class="block"></span>
+                                    <span id="phone" class="block"></span>
                                 </div>
                                 <div>
                                     <span class="block text-lg font-extrabold text-gray-700">Email</span>
-                                    <span id="institution-email" class="block"></span>
+                                    <span id="email" class="block"></span>
                                 </div>
                                 <div class="col-span-2">
                                     <span class="block text-lg font-extrabold text-gray-700">Alamat</span>
-                                    <span id="institution-address" class="block"></span>
+                                    <span id="address" class="block"></span>
                                 </div>
                             </div>
                         </div>
@@ -193,32 +193,31 @@
                 </div>
 
                 <!-- Modal untuk Add/Edit -->
-                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
                             <h2 class="modal-title text-2xl font-extrabold"></h2>
                         </div>
                         <!-- Modal Body -->
-                        <!-- Modal Body -->
                         <div class="p-6">
                         <form id="modal-form">
-                            <input type="hidden" id="institution-id-input">
+                            <input type="hidden" id="input-id">
                             <div class="mb-4">
-                                <label for="institution-name-input" class="block text-sm font-bold text-gray-700">Nama Instansi</label>
-                                <x-input id="institution-name-input" class="block mt-1 w-full" type="text" placeholder="Nama Instansi" required />
+                                <label for="input-name" class="block text-sm font-bold text-gray-700">Nama Instansi</label>
+                                <x-input id="input-name" class="block mt-1 w-full" type="text" placeholder="Nama Instansi" required />
                             </div>
                             <div class="mb-4">
-                                <label for="institution-phone-input" class="block text-sm font-bold text-gray-700">Nomor Telepon</label>
-                                <x-input id="institution-phone-input" class="block mt-1 w-full" type="text" placeholder="Nomor Telepon" required />
+                                <label for="input-phone" class="block text-sm font-bold text-gray-700">Nomor Telepon</label>
+                                <x-input id="input-phone" class="block mt-1 w-full" type="text" placeholder="Nomor Telepon" required />
                             </div>
                             <div class="mb-4">
-                                <label for="institution-email-input" class="block text-sm font-bold text-gray-700">Email</label>
-                                <x-input id="institution-email-input" class="block mt-1 w-full" type="text" placeholder="Email" required />
+                                <label for="input-email" class="block text-sm font-bold text-gray-700">Email</label>
+                                <x-input id="input-email" class="block mt-1 w-full" type="text" placeholder="Email" required />
                             </div>
                             <div class="mb-4">
-                                <label for="institution-address-input" class="block text-sm font-bold text-gray-700">Alamat Instansi</label>
-                                <x-input id="institution-address-input" class="block mt-1 w-full" type="text" placeholder="Alamat Instansi" required />
+                                <label for="input-address" class="block text-sm font-bold text-gray-700">Alamat Instansi</label>
+                                <x-input id="input-address" class="block mt-1 w-full" type="text" placeholder="Alamat Instansi" required />
                             </div>
                         </div>
                         <!-- Modal Footer -->
@@ -232,7 +231,7 @@
 
 
                 <!-- Modal untuk Konfirmasi Delete -->
-                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -244,7 +243,7 @@
                         </div>
                         <!-- Modal Footer -->
                         <div class="p-4 border-t-2  flex justify-end">
-                            <x-secondary-button class="mr-2" onclick="closeDeleteModal()">Batal</x-secondary-button>
+                            <x-secondary-button class="mr-2" onclick="closeModal('delete-modal')">Batal</x-secondary-button>
                             <x-danger-button id="confirm-delete">Hapus</x-danger-button>
                         </div>  
                     </div>
@@ -253,28 +252,13 @@
             </div>
         </div>
     </div>
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
-    
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="{{ asset('css/dataTables.tailwindcss.js') }}"></script>
 
     
+    @section('datatable-script')
     <script>
         
     function closeModal(modalId) {
-        document.getElementById(modalId).classList.add('hidden');
-        
-        // Reset form if the modalId is 'modal'
-        if (modalId === 'modal') {
-            document.getElementById('modal-form').reset();
-        }
-    }
-
-    function closeDeleteModal() {
-        document.getElementById('delete-modal').classList.add('hidden');
+        document.getElementById(modalId).classList.replace('flex', 'hidden'); //ganti flex dengan hidden 
     }
 
     function viewInstitusi(id) {
@@ -283,58 +267,69 @@
             url: `/institution/view/${id}`,
             method: 'GET',
             success: function(data) {
-                $('#institution-name').text(data.name);
-                $('#institution-address').text(data.address);
-                $('#institution-phone').text(data.phone);
-                $('#institution-email').text(data.email);
+                $('#name').text(data.name);
+                $('#address').text(data.address);
+                $('#phone').text(data.phone);
+                $('#email').text(data.email);
                 $('.modal-title').text('Detail Instansi');
-                $('#view-modal').removeClass('hidden');
+
+                const viewModal = document.getElementById('view-modal');  
+                viewModal.classList.replace('hidden', 'flex');  
             }
         });
     }
 
     function editInstitusi(id) {
+        
         // Ambil data institusi dari server
         $.ajax({
             url: `/institution/edit/${id}`,
             method: 'GET',
             success: function(data) {
-                $('#institution-id-input').val(data.id);
-                $('#institution-name-input').val(data.name);
-                $('#institution-address-input').val(data.address);
-                $('#institution-phone-input').val(data.phone);
-                $('#institution-email-input').val(data.email);
+                $('#input-id').val(data.id);
+                $('#input-name').val(data.name);
+                $('#input-address').val(data.address);
+                $('#input-phone').val(data.phone);
+                $('#input-email').val(data.email);
                 $('.modal-title').text('Ubah Instansi');
                 $('#modal-submit').show();
                 $('#modal-submit').text('Simpan');
-                $('#modal').removeClass('hidden');
+    
+                const editModal = document.getElementById('modal');  
+                editModal.classList.replace('hidden', 'flex');  
             }
         });
     }
 
     function addInstitusi() {
+
+        // Reset form  
+        document.getElementById('modal-form').reset();
+        $('#input-id').val('');
+    
+        // Ubah judul modal dan tampilkan  
         $('.modal-title').text('Tambah Instansi'); 
-        $('#institution-id-input').val(''); 
-        $('#institution-name-input').val(''); 
-        $('#institution-address-input').val(''); 
-        $('#institution-phone-input').val('');  
-        $('#institution-email-input').val(''); 
-        $('#modal-submit').show();
+        $('#modal-submit').show();  
         $('#modal-submit').text('Tambah Institusi');
-        $('#modal').removeClass('hidden'); 
+
+        const addModal = document.getElementById('modal');  
+        addModal.classList.replace('hidden', 'flex'); 
         
     }
 
     // Konfirmasi delete
     function confirmDeleteInstitusi(id) {
         $('.modal-title').text('Konfirmasi Hapus');
-        $('#delete-modal').removeClass('hidden');
+
+        const deleteModal = document.getElementById('delete-modal');  
+        deleteModal.classList.replace('hidden', 'flex'); 
+
         $('#confirm-delete').off('click').on('click', function() {
             $.ajax({
                 url: `/institution/delete/${id}`,
                 method: 'DELETE',
                 success: function() {
-                    $('#delete-modal').addClass('hidden');
+                    deleteModal.classList.replace('flex', 'hidden'); 
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     toastr.success('Data berhasil dihapus.','Berhasil'); // Tampilkan pesan sukses
                 },
@@ -345,6 +340,7 @@
         });
     }
 
+
     $(document).ready(function() {
         // Set CSRF token for AJAX requests
         $.ajaxSetup({
@@ -352,7 +348,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
 
         var table = $('#dataTable').DataTable({
             processing: true,
@@ -380,14 +375,14 @@
                 { data: 'address', name: 'address' },
                 { data: null, render: function(data, type, row) {
                     return '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Lihat Data" onclick="viewInstitusi(' + row.id + ')">' +
-                   '<i class="ti ti-eye"></i>' +
-                   '</button>' +
-                   '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Edit Data"" onclick="editInstitusi(' + row.id + ')">' +
-                   '<i class="ti ti-edit"></i>' +
-                   '</button>' +
-                   '<button type="submit" class="btn-icon-actionDelete tippy-button" data-tippy-content="Hapus Data" onclick="confirmDeleteInstitusi(' + row.id + ')">' +
-                   '<i class="ti ti-trash"></i>' +
-                   '</button>';
+                '<i class="ti ti-eye"></i>' +
+                '</button>' +
+                '<button type="submit" class="btn-icon-action tippy-button" data-tippy-content="Edit Data"" onclick="editInstitusi(' + row.id + ')">' +
+                '<i class="ti ti-edit"></i>' +
+                '</button>' +
+                '<button type="submit" class="btn-icon-actionDelete tippy-button" data-tippy-content="Hapus Data" onclick="confirmDeleteInstitusi(' + row.id + ')">' +
+                '<i class="ti ti-trash"></i>' +
+                '</button>';
                 } }
             
             ],
@@ -422,15 +417,26 @@
                 infoEmpty: "Tidak ada data yang tersedia",
                 zeroRecords: "Tidak ada data yang ditemukan"
             },
-            // Inisialisasi Tippy.js setelah DataTable selesai menggambar
-            initComplete: function(settings, json) {
-                initializeTooltips(); // Panggil fungsi untuk menginisialisasi tooltip
-            },
-            drawCallback: function(settings) {
-                initializeTooltips(); // Inisialisasi tooltip setiap kali tabel digambar ulang
+            initComplete: function(settings, json) {  
+                // Inisialisasi tooltip setelah DataTable selesai menggambar  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
+            },  
+            drawCallback: function(settings) {  
+                // Inisialisasi tooltip setiap kali tabel digambar ulang  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
             }
             
-         
+        
         });
         
 
@@ -441,15 +447,17 @@
             
         });
 
-        
         // Handle form submit for edit and create
-        $('#modal-form').on('submit', function(e) {
+        $(document).off('submit', '#modal-form'); // Unbind previous event    
+        $(document).on('submit', '#modal-form', function(e) {
+            console.log("Submit event triggered"); // Tambahkan log ini  
+
             e.preventDefault(); // Mencegah form dari submit default
-            const id = $('#institution-id-input').val(); 
-            const name = $('#institution-name-input').val(); 
-            const address = $('#institution-address-input').val();
-            const phone = $('#institution-phone-input').val(); 
-            const email = $('#institution-email-input').val(); 
+            const id = $('#input-id').val(); 
+            const name = $('#input-name').val(); 
+            const address = $('#input-address').val();
+            const phone = $('#input-phone').val(); 
+            const email = $('#input-email').val(); 
 
             $.ajax({
                 url: id ? `/institution/update/${id}` : '/institution/store', // Gunakan rute yang sesuai
@@ -461,7 +469,9 @@
                     email: email, 
                 },
                 success: function(response) {
-                    $('#modal').addClass('hidden'); // Sembunyikan modal
+                    const modal = document.getElementById('modal');  
+                    modal.classList.replace('flex', 'hidden'); 
+
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     const title = 'Berhasil'; // Title untuk notifikasi
                     toastr.success(id ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.', title); // Tampilkan pesan sukses dengan title
@@ -472,14 +482,10 @@
                 }
             });
         });
-
-        
-
-
-        
         
     });
     
     
     </script>
+    @endsection
 </div>

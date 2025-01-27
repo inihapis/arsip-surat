@@ -1,4 +1,4 @@
-<aside id="sidebar" class="fixed hidden z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-1/5 transition-width duration-75" aria-label="Sidebar">
+<aside id="sidebar" class="fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-1/5 transition-width duration-75" aria-label="Sidebar">
     <div class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
        <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
           <div class="flex-1 px-8 bg-white divide-y space-y-1">
@@ -12,11 +12,11 @@
                                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                             </svg>
                          </div>
-                         <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
+                         <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
                       </div>
                    </form>
                 </li>
-               <li class="pt-6 pt-1">
+               <li class="pt-6 ">
                    <span class="uppercase font-bold">Menu Utama</span>
                </li>
                <li>
@@ -26,13 +26,13 @@
                </a>
                </li>
                <li>
-               <a href="{{ route('incoming-letter.index') }}" class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('incoming-letter.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
+               <a href="{{ route('incoming-letter.index') }}" wire:navigate class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('incoming-letter.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
                   <i class="ti ti-mail-down text-2xl"></i>
                   <span class="ml-3">Surat Masuk</span>
                </a>
                </li>
                <li>
-               <a href="{{ route('outgoing-letter.index') }}" class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('outgoing-letter.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
+               <a href="{{ route('outgoing-letter.index') }}" wire:navigate class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('outgoing-letter.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
                   <i class="ti ti-mail-up text-2xl"></i>
                   <span class="ml-3">Surat Keluar</span>
                </a>
@@ -43,7 +43,7 @@
                       <span class="ml-3 flex-1 whitespace-nowrap">Rekapitulasi</span>
                    </a>
                 </li>
-               <li class="pt-6 pt-1">
+               <li class="pt-6 ">
                    <span class="uppercase font-bold">Referensi</span>
                </li>
                 <li>
@@ -53,22 +53,24 @@
                    </a>
                 </li>
                 <li>
-                   <a href="{{ route('category.index') }}" class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('category.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
+                   <a href="{{ route('category.index') }}" wire:navigate class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('category.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
                       <i class="ti ti-category-2 text-2xl"></i>
                       <span class="ml-3 flex-1 whitespace-nowrap">Kategori Surat</span>
                    </a>
                 </li>
-                <li class="pt-6 pt-1">
+
+                @if(Auth::user()->role === 'admin')  
+                <li class="pt-6 ">
                     <span class="uppercase font-bold">Utilitas</span>
                 </li>
                 <li>
-                   <a href="#" class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('dashboard') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
+                   <a href="#" class="disabled transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('dashboard') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
                      <i class="ti ti-settings text-2xl"></i>
                      <span class="ml-3 flex-1 whitespace-nowrap">Konfigurasi Aplikasi</span>
                    </a>
                 </li>
                 <li>
-                  <a href="{{ route('user.index') }}" class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('user.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
+                  <a href="{{ route('user.index') }}" wire:navigate class="transition-all duration-200 text-base text-gray-900 font-normal rounded-lg flex items-center p-2 {{ request()->routeIs('user.index') ? 'active' : ' hover:bg-blue-100 hover:text-primary' }}">
                      <i class="ti ti-users text-2xl"></i>
                       <span class="ml-3 flex-1 whitespace-nowrap">Manajemen User</span>
                    </a>
@@ -79,6 +81,7 @@
                       <span class="ml-3 flex-1 whitespace-nowrap">Backup Database</span>
                    </a>
                 </li>
+                @endif  
              </ul>
    
    

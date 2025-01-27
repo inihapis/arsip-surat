@@ -165,7 +165,7 @@
                 </div>
                 
                 <!-- Modal untuk View -->
-                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
+                <div id="view-modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/2">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -220,7 +220,7 @@
                 </div>
 
                 <!-- Modal untuk Add/Edit -->
-                <div id="modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
+                <div id="modal" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 hidden items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/2">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -231,7 +231,6 @@
                         <form id="modal-form" class="grid grid-cols-2 gap-4" enctype="multipart/form-data">
                             @csrf  
                             <input type="hidden" id="input-id">
-                            <!-- <input type="hidden" name="file" id="input-file-name"> Hidden input untuk nama file -->  
                             <div class="mb-4">
                                 <label for="input-letter-number" class="block text-sm font-bold text-gray-700">Nomor Surat</label>
                                 <x-input id="input-letter-number" name="letter_number" class="block mt-1 w-full" type="text" placeholder="Nomor Surat" required />
@@ -269,12 +268,10 @@
                                 <label for="input-description" class="block text-sm font-bold text-gray-700">Deskripsi</label>
                                 <x-input id="input-description" name="description" class="block mt-1 w-full" type="text" placeholder="Deskripsi" />
                             </div>
-                            <div class="mb-4 col-span-2">  
+                             
+                            <div class="mb-4 col-span-full">
                                 <label for="input-file" class="block text-sm font-bold text-gray-700">File</label>  
                                 <input type="file" class="block mt-1 w-full py-3 px-4 border border-gray-300 focus:border-primary tranisiton-all duration-200 focus:ring-2 delay-75 focus:ring-primary rounded-md shadow-sm" name="file" id="input-file" accept=".doc, .docx, .pdf">
-                                
-                                <!-- <label class="block text-sm font-medium">File</label>   -->
-                                <!-- <div class="dropzone" id="myDropzone"></div>   -->
                             </div> 
                         </div>
                         <!-- Modal Footer -->
@@ -288,7 +285,7 @@
 
 
                 <!-- Modal untuk Konfirmasi Delete -->
-                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -300,7 +297,7 @@
                         </div>
                         <!-- Modal Footer -->
                         <div class="p-4 border-t-2  flex justify-end">
-                            <x-secondary-button class="mr-2" onclick="closeDeleteModal()">Batal</x-secondary-button>
+                            <x-secondary-button class="mr-2" onclick="closeModal('delete-modal')">Batal</x-secondary-button>
                             <x-danger-button id="confirm-delete">Hapus</x-danger-button>
                         </div>  
                     </div>
@@ -311,31 +308,13 @@
         </div>
     </div>
 
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
     
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="{{ asset('css/dataTables.tailwindcss.js') }}"></script>
-
 
     <script>
     
     function closeModal(modalId) {
-        document.getElementById(modalId).classList.add('hidden');
-        // Reset form if the modalId is 'modal'
-        if (modalId === 'modal') {
-            document.getElementById('modal-form').reset();
-        }
+        document.getElementById(modalId).classList.replace('flex', 'hidden'); //ganti flex dengan hidden 
     }
-
-    
-    function closeDeleteModal() {
-        document.getElementById('delete-modal').classList.add('hidden');
-    }
-
     
     function viewSuratKeluar(id) {
         // Ambil data dari server
@@ -355,8 +334,10 @@
                 $('#letter-store').text(formattedLetterStore);
                 $('#description').text(data.description);
                 $('#document-show').attr('href', data.file_route);
-                $('.modal-title').text('Detail Surat Masuk');
-                $('#view-modal').removeClass('hidden');
+                $('.modal-title').text('Detail Surat Keluar');
+                
+                const viewModal = document.getElementById('view-modal');  
+                viewModal.classList.replace('hidden', 'flex');
             }
         });
     }
@@ -380,7 +361,7 @@
                 const formattedDate = luxon.DateTime.fromISO(data.letter_date).toFormat('LLLL d, yyyy');  
                 
                 // Mengisi form modal  
-                $('.modal-title').text('Ubah Surat Masuk');  
+                $('.modal-title').text('Ubah Surat Keluar');  
                 $('#input-id').val(data.id);   
                 $('#input-letter-number').val(data.letter_number);   
                 $('#input-subject').val(data.subject);   
@@ -408,7 +389,8 @@
                 // Tampilkan modal  
                 $('#modal-submit').show();  
                 $('#modal-submit').text('Simpan');  
-                $('#modal').removeClass('hidden');  
+                const editModal = document.getElementById('modal');  
+                editModal.classList.replace('hidden', 'flex');     
             },  
             error: function(xhr) {  
                 toastr.error('Terjadi kesalahan saat mengambil data: ' + xhr.responseJSON.message, 'Gagal');  
@@ -442,21 +424,25 @@
         // Reset form  
         document.getElementById('modal-form').reset();
         $('#input-id').val(''); 
-        $('#input-file-name').val(''); 
-        $('#input-file').val(''); 
   
     
         // Ubah judul modal dan tampilkan  
-        $('.modal-title').text('Tambah Surat Masuk');   
+        $('.modal-title').text('Tambah Surat Keluar');   
         $('#modal-submit').show();  
-        $('#modal-submit').text('Tambah Surat Masuk');  
-        $('#modal').removeClass('hidden'); // Tampilkan modal  
+        $('#modal-submit').text('Tambah Surat Keluar');  
+        
+        const addModal = document.getElementById('modal');  
+        addModal.classList.replace('hidden', 'flex');  
     }  
 
 
     // Konfirmasi delete
     function confirmDeleteSuratKeluar(id) {
-        $('#delete-modal').removeClass('hidden');
+        $('.modal-title').text('Konfirmasi Hapus');
+
+        const deleteModal = document.getElementById('delete-modal');  
+        deleteModal.classList.replace('hidden', 'flex');
+
         $('#confirm-delete').off('click').on('click', function() {
             $.ajax({
                 url: `/outgoing-letter/delete/${id}`,
@@ -465,7 +451,7 @@
                     _token: '{{ csrf_token() }}' // Token CSRF untuk keamanan  
                 }, 
                 success: function() {
-                    $('#delete-modal').addClass('hidden');
+                    deleteModal.classList.replace('flex', 'hidden'); 
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     toastr.success('Data berhasil dihapus.','Berhasil'); // Tampilkan pesan sukses
                 },
@@ -518,8 +504,6 @@
             "{{ route('api.institution') }}" // URL AJAX    
         );
 
-     
-
         var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -536,8 +520,7 @@
                 },
 
                 error: function(xhr, error, thrown) {
-                    console.log('Error AJAX:', error);
-                    console.log('Response:', xhr.responseText);
+                    console.error('Error AJAX:', error, 'Response:', xhr.responseText);  
                 }
             },
             columns: [
@@ -549,7 +532,11 @@
                     render: function(data, type, row) {
                         const formattedDate = luxon.DateTime.fromISO(row.letter_date).toLocaleString(luxon.DateTime.DATE_FULL);  
                         
-                        return '<span class="text-sm"> Nomor: </span> <br>' + '<span class="font-extrabold">' + row.letter_number + '</span> <br> <span class="text-sm"> Tanggal: ' + ' </span> <br> <span class="font-extrabold">' + formattedDate + '</span>'; 
+                        return  `<span class="text-sm">Nomor:</span><br>  
+                                <span class="font-extrabold">${row.letter_number}</span><br>  
+                                <span class="text-sm">Tanggal:</span><br>  
+                                <span class="font-extrabold">${formattedDate}</span>`;  
+
                     },  
                 },  
                 { data: 'institution.name', name: 'institution.name', },
@@ -604,12 +591,24 @@
                 infoEmpty: "Tidak ada data yang tersedia",
                 zeroRecords: "Tidak ada data yang ditemukan"
             },
-            // Inisialisasi Tippy.js setelah DataTable selesai menggambar
-            initComplete: function(settings, json) {
-                initializeTooltips(); // Panggil fungsi untuk menginisialisasi tooltip
-            },
-            drawCallback: function(settings) {
-                initializeTooltips(); // Inisialisasi tooltip setiap kali tabel digambar ulang
+            
+            initComplete: function(settings, json) {  
+                // Inisialisasi tooltip setelah DataTable selesai menggambar  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
+            },  
+            drawCallback: function(settings) {  
+                // Inisialisasi tooltip setiap kali tabel digambar ulang  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
             }
             
          
@@ -623,8 +622,9 @@
             
         });
 
-    
-        $('#modal-form').on('submit', function(e) {    
+        // Handle form submit for edit and create
+        $(document).off('submit', '#modal-form'); // Unbind previous event    
+        $(document).on('submit', '#modal-form', function(e) {    
             e.preventDefault(); // Mencegah form dari submit default    
             const id = $('#input-id').val();  
                 
@@ -658,7 +658,9 @@
                 contentType: false,    
                 success: function(response) {    
                     console.log("Respons dari server:", response);    
-                    $('#modal').addClass('hidden');    
+                    const modal = document.getElementById('modal');  
+                    modal.classList.replace('flex', 'hidden'); 
+
                     $('#dataTable').DataTable().ajax.reload();    
                     const title = 'Berhasil';    
                     toastr.success(id ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.', title);    

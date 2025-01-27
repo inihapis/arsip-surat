@@ -160,7 +160,7 @@
 
 
                 <!-- Modal untuk Add/Edit -->
-                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -169,14 +169,14 @@
                         <!-- Modal Body -->
                         <div class="p-6">
                         <form id="modal-form">
-                            <input type="hidden" id="category-id-input">
+                            <input type="hidden" id="input-id">
                             <div class="mb-4">
-                                <label for="category-name-input" class="block text-sm font-bold text-gray-700">Nama Kategori</label>
-                                <x-input id="category-name-input" class="block mt-1 w-full" type="text" placeholder="Nama Kategori" required />
+                                <label for="input-name" class="block text-sm font-bold text-gray-700">Nama Kategori</label>
+                                <x-input id="input-name" class="block mt-1 w-full" type="text" placeholder="Nama Kategori" required />
                             </div>
                             <div class="mb-4">
-                                <label for="category-letter-code-input" class="block text-sm font-bold text-gray-700">Kode Surat</label>
-                                <x-input id="category-letter-code-input" class="block mt-1 w-full" type="text" placeholder="Kode Surat" required />
+                                <label for="input-letter-code" class="block text-sm font-bold text-gray-700">Kode Surat</label>
+                                <x-input id="input-letter-code" class="block mt-1 w-full" type="text" placeholder="Kode Surat" required />
                             </div>
                         </div>
                         <!-- Modal Footer -->
@@ -190,7 +190,7 @@
 
 
                 <!-- Modal untuk Konfirmasi Delete -->
-                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                <div id="delete-modal" class="fixed inset-0 z-50 hidden bg-gray-800 bg-opacity-50 items-center justify-center">
                     <div class="bg-white overflow-hidden rounded-lg shadow-lg w-11/12 md:w-1/3">
                         <!-- Modal Header -->
                         <div class="bg-primary text-white p-6">
@@ -202,7 +202,7 @@
                         </div>
                         <!-- Modal Footer -->
                         <div class="p-4 border-t-2  flex justify-end">
-                            <x-secondary-button class="mr-2" onclick="closeDeleteModal()">Batal</x-secondary-button>
+                            <x-secondary-button class="mr-2" onclick="closeModal('delete-modal')">Batal</x-secondary-button>
                             <x-danger-button id="confirm-delete">Hapus</x-danger-button>
                         </div>  
                     </div>
@@ -212,29 +212,14 @@
                         
         </div>
     </div>
-
-    <!-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> -->
     
-    <!-- <script src="https://cdn.datatables.net/2.1.8/js/dataTables.tailwindcss.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
-    <script src="{{ asset('css/dataTables.tailwindcss.js') }}"></script>
-
     
+    @section('datatable-script')
     <script>
         
     function closeModal(modalId) {
-        document.getElementById(modalId).classList.add('hidden');
-        
-        // Reset form if the modalId is 'modal'
-        if (modalId === 'modal') {
-            document.getElementById('modal-form').reset();
-        }
-    }
-
-    function closeDeleteModal() {
-        document.getElementById('delete-modal').classList.add('hidden');
+        document.getElementById(modalId).classList.replace('flex', 'hidden'); //ganti flex dengan hidden 
     }
 
     function editKategori(id) {
@@ -243,38 +228,46 @@
             url: `/category/edit/${id}`,
             method: 'GET',
             success: function(data) {
-                $('#category-id-input').val(data.id);
-                $('#category-name-input').val(data.name);
-                $('#category-letter-code-input').val(data.letter_code);
+                $('#input-id').val(data.id);
+                $('#input-name').val(data.name);
+                $('#input-letter-code').val(data.letter_code);
                 $('.modal-title').text('Ubah Kategori');
                 $('#modal-submit').show();
                 $('#modal-submit').text('Simpan');
-                $('#modal').removeClass('hidden');
+                
+                const editModal = document.getElementById('modal');  
+                editModal.classList.replace('hidden', 'flex'); 
             }
         });
     }
 
     function addKategori() {
-        $('.modal-title').text('Tambah Kategori'); // Ubah judul modal
-        $('#category-id-input').val(''); // Kosongkan ID
-        $('#category-name-input').val(''); // Kosongkan nama
-        $('#category-letter-code-input').val(''); // Kosongkan alamat
+        // Reset form  
+        document.getElementById('modal-form').reset();
+        $('#input-id').val('');
+
+        $('.modal-title').text('Tambah Kategori');
         $('#modal-submit').show();
-        $('.modal-submit').text('Tambah Kategori');
-        $('#modal').removeClass('hidden'); // Tampilkan modal
+        $('#modal-submit').text('Tambah Kategori');
+
+        const addModal = document.getElementById('modal');  
+        addModal.classList.replace('hidden', 'flex');
         
     }
 
     // Konfirmasi delete
     function confirmDeleteKategori(id) {
         $('.modal-title').text('Konfirmasi Hapus');
-        $('#delete-modal').removeClass('hidden');
+
+        const deleteModal = document.getElementById('delete-modal');  
+        deleteModal.classList.replace('hidden', 'flex');
+
         $('#confirm-delete').off('click').on('click', function() {
             $.ajax({
                 url: `/category/delete/${id}`,
                 method: 'DELETE',
                 success: function() {
-                    $('#delete-modal').addClass('hidden');
+                    deleteModal.classList.replace('flex', 'hidden'); 
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     toastr.success('Data berhasil dihapus.','Berhasil'); // Tampilkan pesan sukses
                 },
@@ -360,12 +353,23 @@
                 infoEmpty: "Tidak ada data yang tersedia",
                 zeroRecords: "Tidak ada data yang ditemukan"
             },
-            // Inisialisasi Tippy.js setelah DataTable selesai menggambar
-            initComplete: function(settings, json) {
-                initializeTooltips(); // Panggil fungsi untuk menginisialisasi tooltip
-            },
-            drawCallback: function(settings) {
-                initializeTooltips(); // Inisialisasi tooltip setiap kali tabel digambar ulang
+            initComplete: function(settings, json) {  
+                // Inisialisasi tooltip setelah DataTable selesai menggambar  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
+            },  
+            drawCallback: function(settings) {  
+                // Inisialisasi tooltip setiap kali tabel digambar ulang  
+                tippy('.tippy-button', {  
+                    placement: 'top',  
+                    animation: 'scale-subtle',  
+                    duration: [200, 150],  
+                    inertia: true  
+                });  
             }
             
          
@@ -379,13 +383,13 @@
             
         });
 
-        
         // Handle form submit for edit and create
-        $('#modal-form').on('submit', function(e) {
+        $(document).off('submit', '#modal-form'); // Unbind previous event    
+        $(document).on('submit', '#modal-form', function(e) {
             e.preventDefault(); // Mencegah form dari submit default
-            const id = $('#category-id-input').val(); // Ambil ID dari input
-            const name = $('#category-name-input').val(); // Ambil nama dari input
-            const letter_code = $('#category-letter-code-input').val(); // Ambil alamat dari input
+            const id = $('#input-id').val(); // Ambil ID dari input
+            const name = $('#input-name').val(); // Ambil nama dari input
+            const letter_code = $('#input-letter-code').val(); // Ambil alamat dari input
 
             $.ajax({
                 url: id ? `/category/update/${id}` : '/category/store', // Gunakan rute yang sesuai
@@ -395,7 +399,9 @@
                     letter_code: letter_code 
                 },
                 success: function(response) {
-                    $('#modal').addClass('hidden'); // Sembunyikan modal
+                    const modal = document.getElementById('modal');  
+                    modal.classList.replace('flex', 'hidden'); 
+                    
                     $('#dataTable').DataTable().ajax.reload(); // Reload DataTable
                     const title = 'Berhasil'; // Title untuk notifikasi
                     toastr.success(id ? 'Data berhasil diperbarui.' : 'Data berhasil ditambahkan.', title); // Tampilkan pesan sukses dengan title
@@ -407,12 +413,8 @@
             });
         });
 
-        
-
-
-        
-        
     });
     </script>
+    @endsection
     
 </div>

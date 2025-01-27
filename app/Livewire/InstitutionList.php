@@ -12,6 +12,13 @@ class InstitutionList extends Component
     {
         return view('livewire.institution-list');
     }
+
+    public function updatedData()  
+    {  
+        // Emit event setelah data diperbarui  
+        $this->emit('dataUpdated');  
+    } 
+    
     public function getInstitutionsData(Request $request)
     {
         $draw = request()->input('draw');

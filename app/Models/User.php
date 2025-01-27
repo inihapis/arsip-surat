@@ -64,4 +64,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    // memeriksa peran pengguna
+    public function isAdmin(): bool  
+    {  
+        return $this->role === 'admin'; // Memeriksa apakah peran pengguna adalah admin  
+    } 
 }

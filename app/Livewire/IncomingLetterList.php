@@ -15,6 +15,12 @@ class IncomingLetterList extends Component
         return view('livewire.incoming-letter-list');
     }
 
+    public function updatedData()  
+    {  
+        // Emit event setelah data diperbarui  
+        $this->emit('dataUpdated');  
+    } 
+
 
     public function getIncomingLettersData(Request $request)  
     {  
